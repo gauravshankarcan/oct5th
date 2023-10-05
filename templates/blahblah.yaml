@@ -1,0 +1,45 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: "{{ .Values.name }}"
+  labels:
+    app: sampletest
+    app.kubernetes.io/component: sampletest
+    app.kubernetes.io/instance: sampletest
+spec:
+  replicas: {{ .Values.replica }}
+  selector:
+    matchLabels:
+      deployment: sampletest
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        deployment: sampletest
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+    spec:
+      containers:
+        - name: sampletest
+          image: openshift/hello-openshift
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8888
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
