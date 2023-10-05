@@ -2,4 +2,4 @@ FROM ubuntu
 MAINTAINER demousr@gmail.com 
 
 RUN apt-get update 
-CMD [“echo”,”Image created test2”] 
+CMD [“echo”,”Image created test3”] 
