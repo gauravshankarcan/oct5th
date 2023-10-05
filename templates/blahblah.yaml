@@ -22,6 +22,9 @@ spec:
       containers:
         - name: sampletest
           image: openshift/hello-openshift
+          env:
+            - name: RESPONSE
+              value: " This is synced by argocd "
           ports:
             - containerPort: 8080
               protocol: TCP
